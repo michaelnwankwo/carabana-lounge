@@ -3,17 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Urban Lounge | Menu</title>
+    <title>Menu | Carabana Lounge</title>
 
-    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&family=Montserrat:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Menu CSS -->
-    <link rel="stylesheet" href="menu.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="menu.css" />
   </head>
   <body>
     <header class="navbar">
@@ -32,14 +30,21 @@
       </div>
       <nav class="nav-links">
         <a href="menu.html">Menu</a>
-        <a href="reserve.html" class="res-btn">Reservations</a>
+        <a href="reserve.html">Reservations</a>
         <a href="index.html" class="home-btn">Home</a>
       </nav>
     </header>
 
     <main class="menu-container">
-      <!-- CATEGORY BUTTONS -->
-      <section class="menu-categories-section">
+      <section class="mode-switch-section">
+        <div class="mode-switch">
+          <button class="mode-btn active" data-mode="dine-in">Dine-In</button>
+          <button class="mode-btn" data-mode="delivery">Takeaway</button>
+          <div class="mode-glider"></div>
+        </div>
+      </section>
+
+      <section class="menu-nav-section">
         <div class="menu-categories">
           <button class="category-btn active" data-category="tequilla">
             Tequilla
@@ -54,43 +59,126 @@
           </button>
         </div>
 
-        <!-- SEARCH -->
         <div class="search-container">
           <div class="search-wrapper">
             <input
               type="search"
               id="menu-search"
-              placeholder="Search menu items..."
+              placeholder="Search menu..."
               class="search-input"
             />
-            <button type="submit" class="search-icon-btn" aria-label="Search">
+            <button class="search-icon-btn">
               <svg
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </button>
           </div>
         </div>
       </section>
 
-      <!-- MENU GRID -->
       <section class="menu-grid-section">
         <div id="menuGrid" class="menu-grid"></div>
       </section>
+
+      <div id="cart-fab" class="cart-floating-btn hidden">
+        <div class="cart-count">0</div>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path
+            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+          ></path>
+        </svg>
+      </div>
     </main>
 
-    <footer class="menu-footer">
-      <p>&copy; 2026 Urban Lounge. All rights reserved.</p>
+    <aside class="cart-drawer" id="cartDrawer">
+      <div class="cart-header">
+        <h3>Your Order</h3>
+        <button class="close-cart">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <p class="empty-msg">Your cart is empty</p>
+      </div>
+      <div class="cart-footer">
+        <div class="total-row">
+          <span>Total:</span>
+          <span id="cartTotal">₦0.00</span>
+          <div class="cart-user-details" style="padding: 10px 0">
+            <input
+              type="text"
+              id="customer-name"
+              placeholder="Your Name"
+              class="search-input"
+              style="margin-bottom: 10px"
+            />
+            <input
+              type="email"
+              id="customer-email"
+              placeholder="Email (for receipt)"
+              class="search-input"
+            />
+            <div
+              id="takeaway-location-box"
+              style="padding: 15px; display: none; border-top: 1px solid #222"
+            >
+              <p
+                style="
+                  color: #e67e22;
+                  font-size: 0.75rem;
+                  text-transform: uppercase;
+                  margin-bottom: 8px;
+                  letter-spacing: 1px;
+                "
+              >
+                Delivery Address
+              </p>
+              <input
+                type="text"
+                id="cust-location"
+                placeholder="E.g. Room 302, Phase 2, Estate Name"
+                style="
+                  width: 100%;
+                  padding: 12px;
+                  background: #111;
+                  border: 1px solid #333;
+                  color: #fff;
+                  border-radius: 8px;
+                  font-family: inherit;
+                "
+              />
+            </div>
+          </div>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </aside>
+
+    <footer class="site-footer">
+      <div class="footer-legal">
+        <p>&copy; 2026 Carabana Lounge. All rights reserved.</p>
+      </div>
     </footer>
 
-    <script src="menu.js"></script>
     <script src="script.js"></script>
+    <script src="menu.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
   </body>
 </html>
