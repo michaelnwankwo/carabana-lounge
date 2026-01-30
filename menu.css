@@ -317,6 +317,10 @@ body {
   .menu-card .price {
     font-size: 0.85rem;
   }
+
+  .menu-categories {
+    margin-top: 90px;
+  }
 }
 
 @media (max-width: 480px) {
