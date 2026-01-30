@@ -12,93 +12,93 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentCategory = "tequilla";
 
   // ── Render Menu ─────────────────────────────────────────────
-  function renderMenu(category = currentCategory, scrollToItem = "") {
-    if (!menuGrid || !menuData?.[category]) return;
+  // function renderMenu(category = currentCategory, scrollToItem = "") {
+  //   if (!menuGrid || !menuData?.[category]) return;
 
-    menuGrid.innerHTML = "";
+  //   menuGrid.innerHTML = "";
 
-    menuData[category].forEach((item) => {
-      const card = document.createElement("div");
-      card.className = "menu-card";
-      card.setAttribute("data-name", item.name.toLowerCase());
-      card.innerHTML = `
-        <img src="${item.image}" alt="${item.name}" loading="lazy">
-        <div class="content">
-          <h3>${item.name}</h3>
-          <div class="price">₦${item.price.toLocaleString()}</div>
-        </div>
-      `;
-      menuGrid.appendChild(card);
-    });
+  //   menuData[category].forEach((item) => {
+  //     const card = document.createElement("div");
+  //     card.className = "menu-card";
+  //     card.setAttribute("data-name", item.name.toLowerCase());
+  //     card.innerHTML = `
+  //       <img src="${item.image}" alt="${item.name}" loading="lazy">
+  //       <div class="content">
+  //         <h3>${item.name}</h3>
+  //         <div class="price">₦${item.price.toLocaleString()}</div>
+  //       </div>
+  //     `;
+  //     menuGrid.appendChild(card);
+  //   });
 
-    // Scroll to matched item if search triggered it
-    if (scrollToItem) {
-      const target = menuGrid.querySelector(
-        `[data-name="${scrollToItem.toLowerCase()}"]`,
-      );
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }
-  }
+  //   // Scroll to matched item if search triggered it
+  //   if (scrollToItem) {
+  //     const target = menuGrid.querySelector(
+  //       `[data-name="${scrollToItem.toLowerCase()}"]`,
+  //     );
+  //     if (target) {
+  //       target.scrollIntoView({ behavior: "smooth", block: "center" });
+  //     }
+  //   }
+  // }
 
-  // ── Category Switching ──────────────────────────────────────
-  categoryButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      categoryButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCategory = btn.dataset.category;
-      if (searchInput) searchInput.value = "";
-      renderMenu();
-    });
-  });
+  // // ── Category Switching ──────────────────────────────────────
+  // categoryButtons.forEach((btn) => {
+  //   btn.addEventListener("click", () => {
+  //     categoryButtons.forEach((b) => b.classList.remove("active"));
+  //     btn.classList.add("active");
+  //     currentCategory = btn.dataset.category;
+  //     if (searchInput) searchInput.value = "";
+  //     renderMenu();
+  //   });
+  // });
 
   // ── Search Functionality ────────────────────────────────────
-  function performSearch() {
-    const query = searchInput?.value?.trim().toLowerCase();
-    if (!query) return;
+  // function performSearch() {
+  //   const query = searchInput?.value?.trim().toLowerCase();
+  //   if (!query) return;
 
-    let foundCategory = null;
-    let foundItem = null;
+  //   let foundCategory = null;
+  //   let foundItem = null;
 
-    for (const cat in menuData) {
-      const match = menuData[cat].find((item) =>
-        item.name.toLowerCase().includes(query),
-      );
-      if (match) {
-        foundCategory = cat;
-        foundItem = match.name;
-        break;
-      }
-    }
+  //   for (const cat in menuData) {
+  //     const match = menuData[cat].find((item) =>
+  //       item.name.toLowerCase().includes(query),
+  //     );
+  //     if (match) {
+  //       foundCategory = cat;
+  //       foundItem = match.name;
+  //       break;
+  //     }
+  //   }
 
-    if (foundCategory) {
-      // Switch category if needed
-      if (foundCategory !== currentCategory) {
-        currentCategory = foundCategory;
-        categoryButtons.forEach((b) =>
-          b.classList.toggle("active", b.dataset.category === foundCategory),
-        );
-      }
-      renderMenu(foundCategory, foundItem);
-    } else {
-      alert("No drink found matching: " + query);
-    }
-  }
+  //   if (foundCategory) {
+  //     // Switch category if needed
+  //     if (foundCategory !== currentCategory) {
+  //       currentCategory = foundCategory;
+  //       categoryButtons.forEach((b) =>
+  //         b.classList.toggle("active", b.dataset.category === foundCategory),
+  //       );
+  //     }
+  //     renderMenu(foundCategory, foundItem);
+  //   } else {
+  //     alert("No drink found matching: " + query);
+  //   }
+  // }
 
-  // Search triggers
-  if (searchInput) {
-    searchInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") performSearch();
-    });
-  }
+  // // Search triggers
+  // if (searchInput) {
+  //   searchInput.addEventListener("keypress", (e) => {
+  //     if (e.key === "Enter") performSearch();
+  //   });
+  // }
 
-  if (searchBtn) {
-    searchBtn.addEventListener("click", performSearch);
-  }
+  // if (searchBtn) {
+  //   searchBtn.addEventListener("click", performSearch);
+  // }
 
-  // Initial render
-  if (menuGrid) renderMenu();
+  // // Initial render
+  // if (menuGrid) renderMenu();
 
   // ── Featured Drinks – with semi-transparent bottom overlay ──
   if (featuredGrid && menuData) {
@@ -356,29 +356,33 @@ function initCarousel(
 
 // Toggle Mobile Menu
 // Get the elements
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
 
 // 1. Toggle menu when clicking the hamburger
-menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents the click from immediately reaching the 'window'
-    menuToggle.classList.toggle('active');
-    navLinks.classList.toggle('active');
+menuToggle.addEventListener("click", (e) => {
+  e.stopPropagation(); // Prevents the click from immediately reaching the 'window'
+  menuToggle.classList.toggle("active");
+  navLinks.classList.toggle("active");
 });
 
 // 2. Close menu when clicking ANYWHERE on the screen
-window.addEventListener('click', (e) => {
-    // If the menu is open AND the click was NOT on the menu itself
-    if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('active');
-    }
+window.addEventListener("click", (e) => {
+  // If the menu is open AND the click was NOT on the menu itself
+  if (
+    navLinks.classList.contains("active") &&
+    !navLinks.contains(e.target) &&
+    !menuToggle.contains(e.target)
+  ) {
+    menuToggle.classList.remove("active");
+    navLinks.classList.remove("active");
+  }
 });
 
 // 3. Close menu when clicking a link inside the menu
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('active');
-    });
+document.querySelectorAll(".nav-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    menuToggle.classList.remove("active");
+    navLinks.classList.remove("active");
+  });
 });
