@@ -355,18 +355,30 @@ function initCarousel(
 }
 
 // Toggle Mobile Menu
-const menuToggle = document.getElementById("mobile-menu");
-const navLinks = document.querySelector(".nav-links");
+// Get the elements
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
 
-menuToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
-  // Optional: Animate hamburger to X
-  menuToggle.classList.toggle("is-active");
+// 1. Toggle menu when clicking the hamburger
+menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents the click from immediately reaching the 'window'
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
 });
 
-// Close menu when a link is clicked (important for mobile UX)
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("active");
-  });
+// 2. Close menu when clicking ANYWHERE on the screen
+window.addEventListener('click', (e) => {
+    // If the menu is open AND the click was NOT on the menu itself
+    if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+    }
+});
+
+// 3. Close menu when clicking a link inside the menu
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+    });
 });
