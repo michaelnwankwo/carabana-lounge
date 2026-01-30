@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urban Lounge</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="featured-menu.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <a href="index.html" class="logo-link">
+        <img
+          src="https://carabana.vercel.app/_next/image?url=%2Flounglogo.jpeg&w=128&q=75"
+          alt="Logo"
+          class="nav-logo"
+        />
+        <div class="logo">CARABANA <span>LOUNGE</span></div>
+      </a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <nav class="nav-links">
+        <a href="menu.html">Menu</a>
+        <a href="reserve.html" class="res-btn">Reservations</a>
+        <a href="index.html" class="home-btn">Home</a>
+      </nav>
+    </header>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <!-- Video background -->
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="assets/images/hero-fallback.jpg"
+      >
+        <source src="video/carabana-loop.mp4" type="video/mp4" />
+        <!-- Optional fallback source for better browser support -->
+        <!-- <source src="assets/videos/carabana-lounge-loop.webm" type="video/webm"> -->
+        Your browser does not support video playback.
+      </video>
+
+      <!-- Dark overlay -->
+      <div class="hero-overlay"></div>
+
+      <!-- Content -->
+      <div class="hero-content">
+        <h1>CARABANA <span class="highlight">LOUNGE</span></h1>
+        <p class="tagline-head">where class meets comfort</p>
+
+        <div class="hero-buttons">
+          <a href="#reserve" class="btn primary">Reserve Now</a>
+          <a href="menu.html" class="btn secondary">View Menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- featured menu-->
+    <section class="featured-menu carousel-container">
+      <h2>Featured Drinks</h2>
+      <div class="carousel-track-wrapper">
+        <button class="carousel-prev">&#10094;</button>
+        <div class="carousel-track" id="featuredGrid">
+          <!-- JS will inject featured drink cards here -->
+        </div>
+        <button class="carousel-next">&#10095;</button>
+      </div>
+    </section>
+
+    <div class="view-full-menu">
+      <a href="menu.html" class="btn">View Full Menu</a>
+    </div>
+
+    <!-- featured events-->
+    <section class="featured-events carousel-container">
+      <h2>Upcoming Events</h2>
+      <div class="carousel-track-wrapper">
+        <button class="carousel-prev">&#10094;</button>
+        <div class="carousel-track" id="featuredEventsGrid">
+          <!-- JS will inject featured event cards here -->
+        </div>
+        <button class="carousel-next">&#10095;</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <!-- <div class="footer-brand">
+          <div class="logo">Carabana <span>Lounge</span></div>
+          <p class="tagline">Where class meets comfort</p>
+        </div> -->
+
+        <div class="footer-columns">
+          <div class="footer-column about">
+            <h3>About</h3>
+            <p>
+              Premium nightlife destination in Lagos.<br />
+              <br />
+              Curated drinks • Live music • Unforgettable nights.
+            </p>
+          </div>
+
+          <div class="footer-column contact">
+            <h3>Contact</h3>
+            <ul>
+              <li>📍 Lagos, Nigeria</li>
+              <li>📞 +234 800 000 0000</li>
+              <li>✉️ hello@carabanalounge.ng</li>
+            </ul>
+          </div>
+
+          <div class="footer-column social">
+            <h3>Connect</h3>
+            <div class="social-links">
+              <a
+                href="https://instagram.com/yourhandle"
+                aria-label="Instagram"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="https://x.com/yourhandle"
+                aria-label="X (Twitter)"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fab fa-x-twitter"></i>
+              </a>
+              <a
+                href="https://tiktok.com/@yourhandle"
+                aria-label="TikTok"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fab fa-tiktok"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-legal">
+        <p>© 2026 Carabana Lounge. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="menu.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

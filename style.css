@@ -1,0 +1,685 @@
+/* ==========================================================================
+   1. BASE STYLES & RESET
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #0d0d0d;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* NAVBAR - Updated for Logo, Reservations, and Hamburger */
+/* NAVBAR CONTAINER */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+  position: fixed;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(230, 126, 34, 0.1);
+}
+
+/* LOGO SECTION */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 15px;
+}
+
+.nav-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: #e67e22;
+}
+
+/* UNIFIED NAV LINKS */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px; /* Consistent spacing between all items */
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent; /* Subtle hover effect */
+}
+
+/* Hover effect for Menu and Reservations */
+.nav-links a:hover {
+  color: #e67e22;
+  border-bottom: 2px solid #e67e22;
+}
+
+/* THE ONE PRIMARY BUTTON (Home) */
+/* We keep one button distinct so the user knows where the main action is */
+.nav-links .home-btn {
+  background: #e67e22;
+  color: #fff !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+}
+
+.nav-links .home-btn:hover {
+  background: #fff;
+  color: #e67e22 !important;
+  border-bottom: none; /* Remove underline for the solid button */
+}
+
+/* HAMBURGER (For Mobile) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.bar {
+  width: 28px;
+  height: 3px;
+  background-color: #fff;
+}
+
+/* ==========================================================================
+   2. HERO SECTION
+   ========================================================================== */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 680px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  z-index: 2;
+  backdrop-filter: blur(2.5px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px;
+}
+
+.hero h1 {
+  font-size: clamp(3.2rem, 9vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+}
+
+.hero .highlight {
+  color: #e67e22;
+}
+
+.tagline-head {
+  font-size: clamp(1.6rem, 4.5vw, 1.6rem);
+  margin-bottom: 2.8rem;
+  opacity: 0.92;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn.primary {
+  background: #e67e22;
+  color: white;
+}
+
+.btn.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid #e67e22;
+}
+
+/* ==========================================================================
+   3. FEATURED DRINKS (60% Image Size Applied)
+   ========================================================================== */
+.featured-menu {
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  padding: 0 1rem;
+}
+
+.featured-menu h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #e67e22;
+}
+
+.featured-menu .carousel-track-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 0 50px;
+}
+
+.featured-menu .carousel-track {
+  display: flex;
+  transition: transform 0.55s ease-in-out;
+  padding: 25px 0;
+}
+
+.featured-card {
+  flex: 0 0 260px;
+  margin-right: 1.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid #d4af37;
+  border-radius: 25px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(4px);
+  box-shadow:
+    0 0 15px rgba(212, 175, 55, 0.3),
+    inset 0 0 10px rgba(212, 175, 55, 0.1);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.featured-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+}
+
+.featured-card img {
+  width: 60%; /* Image reduced to 60% */
+  height: 130px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.featured-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.featured-card .price {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #e67e22;
+}
+
+.view-full-menu {
+  text-align: center;
+  margin: 2rem 0 4rem;
+  margin-bottom: 8rem;
+}
+
+.view-full-menu .btn {
+  background: #e67e22;
+  color: #fff;
+  border-radius: 30px;
+}
+
+/* ==========================================================================
+   4. FEATURED EVENTS (Flyers Only)
+   ========================================================================== */
+.featured-events {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.featured-events h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #e67e22;
+}
+
+.featured-events .carousel-track-wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-events .carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+}
+
+.featured-event-card {
+  flex: 0 0 100%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.featured-event-card img {
+  width: 100%;
+  height: auto;
+  max-height: 650px;
+  object-fit: contain;
+  border-radius: 15px;
+  display: block;
+}
+
+.featured-event-card .event-info,
+.featured-event-card h3,
+.featured-event-card p,
+.featured-event-card .btn {
+  display: none !important;
+}
+
+/* ==========================================================================
+   5. CAROUSEL NAVIGATION
+   ========================================================================== */
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(230, 126, 34, 0.95);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background: #d35400;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.featured-menu .carousel-prev {
+  left: 10px;
+}
+.featured-menu .carousel-next {
+  right: 10px;
+}
+
+.featured-events .carousel-prev {
+  left: 10%;
+}
+.featured-events .carousel-next {
+  right: 10%;
+}
+
+/* ==========================================================================
+   6. FOOTER
+   ========================================================================== */
+.site-footer {
+  background: linear-gradient(to bottom, #0a0a0a 0%, #000 100%);
+  color: #d0d0d0;
+  border-top: 1px solid rgba(230, 126, 34, 0.12);
+  padding-bottom: 2rem;
+}
+
+.footer-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5.5rem 2.5rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.footer-brand {
+  text-align: left;
+  flex: 1;
+  min-width: 280px;
+}
+
+.footer-brand .logo {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-brand .tagline {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #777;
+}
+
+.footer-columns {
+  display: flex;
+  flex: 2;
+  justify-content: space-between;
+  min-width: 500px;
+}
+
+.footer-column h3 {
+  color: #e67e22;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column li,
+.footer-column p {
+  font-size: 0.94rem;
+  margin-bottom: 0.8rem;
+  color: #aaa;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.social-links a {
+  color: #aaa;
+  font-size: 1.4rem;
+  transition: 0.3s;
+}
+
+.social-links a:hover {
+  color: #e67e22;
+}
+
+.footer-legal {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.8rem;
+  color: #555;
+  border-top: 1px solid #111;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE (Hamburger Logic Added)
+   ========================================================================== */
+@media (max-width: 850px) {
+  .menu-toggle {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    height: 100vh;
+    width: 75%;
+    background: #0d0d0d;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.4s ease-in-out;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+    padding-top: 50px;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    margin: 15px 0;
+    font-size: 1.2rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    padding-top: 3rem;
+  }
+  .footer-columns {
+    flex-direction: column;
+    min-width: 100%;
+    gap: 2rem;
+  }
+  .carousel-prev,
+  .carousel-next {
+    display: none;
+  }
+  .featured-card {
+    flex: 0 0 85%;
+  }
+  .featured-events .carousel-track-wrapper {
+    max-width: 90%;
+  }
+}
+
+/* MOBILE NAV RESPONSIVENESS */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+    height: 70px;
+  }
+
+  .nav-logo {
+    height: 40px;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  /* Hamburger Icon */
+  .menu-toggle {
+    display: flex;
+    z-index: 1001;
+  }
+
+  /* Mobile Drawer */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: rgba(13, 13, 13, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  /* Make the Home button full width in the drawer */
+  .nav-links .home-btn {
+    width: 200px;
+    text-align: center;
+  }
+}
+
+/* HOME PAGE MOBILE */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 20px;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem; /* Scaled for smaller screens */
+    margin-bottom: 10px;
+  }
+
+  .tagline-head {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* Carousels: Allow horizontal scroll on mobile */
+  .featured-menu .carousel-track-wrapper {
+    padding: 0 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .featured-card {
+    flex: 0 0 240px; /* Force cards to maintain width */
+  }
+
+  /* Footer stacking */
+  .footer-columns {
+    min-width: 100%;
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Give the header more breathing room */
+  .navbar {
+    padding: 20px 20px; /* Increased vertical padding */
+    height: auto; /* Allow content to dictate height */
+  }
+
+  /* Push Hero Content towards the bottom */
+  .hero {
+    align-items: flex-end; /* Change from center to bottom alignment */
+    padding-bottom: 80px; /* Add space from the actual bottom of the screen */
+  }
+
+  .hero-content {
+    padding: 25px; /* More internal spacing */
+    width: 100%; /* Ensure it spans the width */
+  }
+
+  /* Add more space between the title, tagline, and buttons */
+  .hero h1 {
+    font-size: 2rem; /* Slightly smaller for tighter screens */
+    margin-bottom: 1.5rem; /* More space after title */
+  }
+
+  .tagline-head {
+    font-size: 1.1rem;
+    margin-bottom: 3.5rem; /* Significantly more space before buttons */
+    line-height: 1.4;
+  }
+
+  .hero-buttons {
+    gap: 20px; /* Space between the stacked buttons */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Restore the display */
+  .carousel-prev,
+  .carousel-next {
+    display: flex !important; /* Forces them back to visible */
+    width: 35px; /* Smaller size for mobile thumbs */
+    height: 35px;
+    font-size: 0.9rem;
+    background: rgba(230, 126, 34, 0.85); /* Slightly more transparent */
+  }
+
+  /* Drink Carousel Arrows - Move them closer to the edges */
+  .featured-menu .carousel-prev {
+    left: 5px;
+  }
+  .featured-menu .carousel-next {
+    right: 5px;
+  }
+
+  /* Event Flyer Arrows - Move them closer to the flyer */
+  .featured-events .carousel-prev {
+    left: 2%;
+  }
+  .featured-events .carousel-next {
+    right: 2%;
+  }
+}

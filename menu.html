@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urban Lounge | Menu</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Menu CSS -->
+    <link rel="stylesheet" href="menu.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <a href="index.html" class="logo-link">
+        <img
+          src="https://carabana.vercel.app/_next/image?url=%2Flounglogo.jpeg&w=128&q=75"
+          alt="Logo"
+          class="nav-logo"
+        />
+        <div class="logo">CARABANA <span>LOUNGE</span></div>
+      </a>
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <nav class="nav-links">
+        <a href="menu.html">Menu</a>
+        <a href="reserve.html" class="res-btn">Reservations</a>
+        <a href="index.html" class="home-btn">Home</a>
+      </nav>
+    </header>
+
+    <main class="menu-container">
+      <!-- CATEGORY BUTTONS -->
+      <section class="menu-categories-section">
+        <div class="menu-categories">
+          <button class="category-btn active" data-category="tequilla">
+            Tequilla
+          </button>
+          <button class="category-btn" data-category="cognac">Cognac</button>
+          <button class="category-btn" data-category="beer">Beer</button>
+          <button class="category-btn" data-category="whisky">Whisky</button>
+          <button class="category-btn" data-category="vodka">Vodka</button>
+          <button class="category-btn" data-category="shisha">Shisha</button>
+          <button class="category-btn" data-category="champagne">
+            Champagne
+          </button>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-container">
+          <div class="search-wrapper">
+            <input
+              type="search"
+              id="menu-search"
+              placeholder="Search menu items..."
+              class="search-input"
+            />
+            <button type="submit" class="search-icon-btn" aria-label="Search">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENU GRID -->
+      <section class="menu-grid-section">
+        <div id="menuGrid" class="menu-grid"></div>
+      </section>
+    </main>
+
+    <footer class="menu-footer">
+      <p>&copy; 2026 Urban Lounge. All rights reserved.</p>
+    </footer>
+
+    <script src="menu.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
