@@ -162,6 +162,8 @@ body {
   font-size: 0.9rem;
   outline: none;
   transition: var(--transition);
+  margin-bottom: 0.8rem;
+  margin-left: 0.5rem;
 }
 
 .search-input::placeholder {
@@ -387,4 +389,334 @@ body {
   .menu-header h1 {
     font-size: 1.8rem; /* Better fit for small displays */
   }
+}
+
+/* ==========================================================================
+   1. MODE SWITCH (Dine-in vs Takeaway)
+   ========================================================================== */
+.mode-switch-section {
+  display: flex;
+  justify-content: center;
+  padding: 120px 20px 30px; /* Space for fixed navbar */
+}
+
+.mode-switch {
+  display: flex;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(230, 126, 34, 0.3);
+  padding: 4px;
+  border-radius: 50px;
+  width: 300px;
+  height: 50px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: none;
+  color: #888;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  z-index: 2;
+  transition: 0.4s;
+}
+
+.mode-btn.active {
+  color: #fff;
+}
+
+.mode-glider {
+  position: absolute;
+  height: calc(100% - 8px);
+  width: calc(50% - 4px);
+  background: #e67e22;
+  border-radius: 50px;
+  top: 4px;
+  left: 4px;
+  transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+}
+
+/* Logic for Glider Movement */
+.mode-switch:has(.mode-btn[data-mode="delivery"].active) .mode-glider {
+  transform: translateX(100%);
+}
+
+/* ==========================================================================
+   2. CATEGORIES & SEARCH
+   ========================================================================== */
+.menu-nav-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.menu-categories {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.category-btn {
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.85rem;
+}
+
+.category-btn.active,
+.category-btn:hover {
+  background: #e67e22;
+  border-color: #e67e22;
+}
+
+.search-container {
+  max-width: 400px;
+  margin: 0 auto 50px;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: #fff;
+  outline: none;
+}
+
+.search-icon-btn {
+  position: absolute;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #e67e22;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   3. CART DRAWER (Sidebar)
+   ========================================================================== */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden by default */
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background: #0a0a0a;
+  z-index: 2000;
+  transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  border-left: 1px solid rgba(230, 126, 34, 0.2);
+}
+
+.cart-drawer.active {
+  right: 0;
+}
+
+.cart-header {
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+}
+
+.close-cart {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.cart-items {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.cart-footer {
+  padding: 25px;
+  background: #111;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background: #e67e22;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   4. FLOATING ACTION BUTTON (FAB)
+   ========================================================================== */
+.cart-floating-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 65px;
+  height: 65px;
+  background: #e67e22;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1500;
+  box-shadow: 0 10px 25px rgba(230, 126, 34, 0.4);
+  transition: 0.3s transform;
+}
+
+.cart-floating-btn:hover {
+  transform: scale(1.1);
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+  color: #e67e22;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   5. MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .mode-switch-section {
+    padding-top: 100px;
+  }
+
+  .mode-switch {
+    width: 90%;
+  }
+
+  .menu-categories {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .cart-drawer {
+    max-width: 100%; /* Take full screen on mobile */
+  }
+}
+
+/* Minimalist Add to Cart Circle */
+.add-to-cart-wrapper {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: 10;
+}
+
+.add-btn-small {
+  width: 18px;
+  height: 18px;
+  background: #e67e22;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.add-btn-small:hover {
+  transform: scale(1.1);
+  background: #ff9233;
+}
+
+.add-btn-small:active {
+  transform: scale(0.9);
+}
+
+/* Ensure the menu card can hold the absolute button */
+.menu-card {
+  position: relative; /* Crucial for the + button positioning */
+  overflow: hidden;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 1. Move the search icon slightly away from the edge */
+.search-icon-btn {
+  position: absolute;
+  right: 35px; /* Increased from 15px to clear the 'X' */
+  background: none;
+  border: none;
+  color: #e67e22;
+  cursor: pointer;
+  pointer-events: none; /* Allows clicks to pass through to the 'X' below */
+  display: flex;
+  align-items: center;
+}
+
+/* 2. Style the 'X' button so it matches your theme (Optional but nice) */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23e67e22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>')
+    no-repeat;
+  cursor: pointer;
 }
