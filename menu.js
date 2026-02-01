@@ -936,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartItemsContainer = document.getElementById("cartItems");
   const cartTotalDisplay = document.getElementById("cartTotal");
 
-  // ── 1. RENDER MENU (Alignment Fix) ──
+  // ── 1. RENDER MENU (Compact & Aligned) ──
   function renderSmartMenu() {
     if (!menuGrid || !window.menuData[currentCategory]) return;
     menuGrid.innerHTML = "";
@@ -950,15 +950,33 @@ document.addEventListener("DOMContentLoaded", () => {
           ? `<button class="add-btn-small add-to-cart-btn" data-id="${item.id}">+</button>`
           : "";
 
-      // Use 'display: block' on content to let the children align naturally
       card.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" loading="lazy">
-                <div class="content" style="padding: 12px; text-align: left;">
-                  <h3 style="margin: 0; padding: 0; text-align: left; display: block;">${item.name}</h3>
-                  <div class="price-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                    <div class="price" style="margin: 0; padding: 0;">₦${item.price.toLocaleString()}</div>
-                    ${actionHtml}
-                  </div>
+                <div style="position: relative; overflow: hidden; height: 100%;">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                    
+                    <div class="content" style="
+                        position: absolute; 
+                        bottom: 0; 
+                        left: 0; 
+                        right: 0; 
+                        background: linear-gradient(transparent, rgba(0,0,0,0.9)); 
+                        padding: 8px 12px;
+                    ">
+                        <h3 style="
+                            margin: 0; 
+                            font-size: 0.9rem; 
+                            color: #fff; 
+                            text-align: left;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        ">${item.name}</h3>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                            <span style="color: #e67e22; font-weight: 700; font-size: 0.85rem;">₦${item.price.toLocaleString()}</span>
+                            ${actionHtml}
+                        </div>
+                    </div>
                 </div>
             `;
       menuGrid.appendChild(card);
