@@ -923,277 +923,172 @@ if (typeof menuData !== "undefined") {
   window.menuData = menuData;
 }
 
+// menu.js - Logic with Quantity Controls and Clear Cart
+
 document.addEventListener("DOMContentLoaded", () => {
-  // ── 1. GLOBAL STATE ──
   let currentMode = "dine-in";
   let currentCategory = "tequilla";
-  let cart = [];
+  let cart = []; // Array of objects: { ...item, quantity: 1 }
 
-  // ── 2. ELEMENTS ──
   const menuGrid = document.getElementById("menuGrid");
   const cartFab = document.getElementById("cart-fab");
   const cartDrawer = document.getElementById("cartDrawer");
   const cartItemsContainer = document.getElementById("cartItems");
   const cartTotalDisplay = document.getElementById("cartTotal");
-  const modeButtons = document.querySelectorAll(".mode-btn");
-  const categoryButtons = document.querySelectorAll(".category-btn");
-  const searchInput = document.getElementById("menu-search");
 
-  // ── 3. RENDER FUNCTION (With Floating + Correction) ──
+  // ── 1. RENDER MENU (Alignment Fix) ──
   function renderSmartMenu() {
     if (!menuGrid || !window.menuData[currentCategory]) return;
     menuGrid.innerHTML = "";
-
-    // If in delivery mode, we hide the shisha category entirely
-    if (currentMode === "delivery" && currentCategory === "shisha") {
-      menuGrid.innerHTML = `<div class="empty-msg" style="grid-column: 1/-1; text-align:center; padding: 50px; color: #888;">Shisha is only available for Dine-In.</div>`;
-      return;
-    }
 
     window.menuData[currentCategory].forEach((item) => {
       const card = document.createElement("div");
       card.className = "menu-card";
 
-      // THE CORRECTION: Small floating "+" icon instead of a big button
       const actionHtml =
         currentMode === "delivery"
-          ? `<div class="add-to-cart-wrapper">
-               <button class="add-btn-small add-to-cart-btn" data-id="${item.id}">+</button>
-             </div>`
+          ? `<button class="add-btn-small add-to-cart-btn" data-id="${item.id}">+</button>`
           : "";
 
+      // Use 'display: block' on content to let the children align naturally
       card.innerHTML = `
                 <img src="${item.image}" alt="${item.name}" loading="lazy">
-                ${actionHtml} 
-                <div class="content">
-                  <h3>${item.name}</h3>
-                  <div class="price">₦${item.price.toLocaleString()}</div>
+                <div class="content" style="padding: 12px; text-align: left;">
+                  <h3 style="margin: 0; padding: 0; text-align: left; display: block;">${item.name}</h3>
+                  <div class="price-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <div class="price" style="margin: 0; padding: 0;">₦${item.price.toLocaleString()}</div>
+                    ${actionHtml}
+                  </div>
                 </div>
             `;
       menuGrid.appendChild(card);
     });
 
-    // Add Listeners to the new buttons
     document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevents clicking the card background
-        const itemId = btn.getAttribute("data-id");
-        addToCart(itemId);
+        e.stopPropagation();
+        addToCart(btn.getAttribute("data-id"));
       });
     });
   }
 
-  // ── 4. MODE SWITCHING (Dine-in vs Takeaway) ──
-  modeButtons.forEach((btn) => {
+  // ── 2. CART LOGIC (Increment existing items) ──
+  function addToCart(id) {
+    const existingItem = cart.find((item) => item.id === id);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      let foundItem = null;
+      for (let cat in window.menuData) {
+        const match = window.menuData[cat].find((p) => p.id == id);
+        if (match) {
+          foundItem = { ...match, quantity: 1 };
+          break;
+        }
+      }
+      if (foundItem) cart.push(foundItem);
+    }
+    updateCartUI();
+  }
+
+  // ── 3. QUANTITY & CLEAR FUNCTIONS ──
+  // These are attached to the window so the HTML buttons can see them
+  window.changeQty = function (id, delta) {
+    const item = cart.find((i) => i.id === id);
+    if (!item) return;
+
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart = cart.filter((i) => i.id !== id);
+    }
+    updateCartUI();
+  };
+
+  window.clearCart = function () {
+    if (confirm("Are you sure you want to clear your cart?")) {
+      cart = [];
+      updateCartUI();
+    }
+  };
+
+  // ── 4. UPDATE CART UI (Drawer Side) ──
+  function updateCartUI() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.querySelector(".cart-count").innerText = totalItems;
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML =
+        '<p class="empty-msg" style="text-align:center; padding:50px; color:#888;">Cart is empty</p>';
+      cartTotalDisplay.innerText = "₦0.00";
+      return;
+    }
+
+    // Header with Clear Cart
+    let html = `
+            <div style="text-align: right; margin-bottom: 15px;">
+                <button onclick="clearCart()" style="background:none; border:none; color:#ff4444; font-size:0.7rem; font-weight:bold; cursor:pointer; text-transform:uppercase;">[ Clear Cart ]</button>
+            </div>
+        `;
+
+    // Item List with +/- buttons
+    html += cart
+      .map(
+        (item) => `
+            <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#111; padding:10px; border-radius:8px;">
+                <div style="flex:1;">
+                    <p style="margin:0; font-weight:600; font-size:0.9rem;">${item.name}</p>
+                    <p style="margin:0; color:#e67e22; font-size:0.8rem;">₦${(item.price * item.quantity).toLocaleString()}</p>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; background:#222; padding:5px; border-radius:5px;">
+                    <button onclick="changeQty('${item.id}', -1)" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.1rem; width:20px;">-</button>
+                    <span style="font-size:0.85rem; font-weight:bold; min-width:15px; text-align:center;">${item.quantity}</span>
+                    <button onclick="changeQty('${item.id}', 1)" style="background:none; border:none; color:#e67e22; cursor:pointer; font-size:1.1rem; width:20px;">+</button>
+                </div>
+            </div>
+        `,
+      )
+      .join("");
+
+    cartItemsContainer.innerHTML = html;
+
+    const total = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+    cartTotalDisplay.innerText = `₦${total.toLocaleString()}`;
+  }
+
+  // ── 5. MODE & CATEGORY BUTTONS ──
+  document.querySelectorAll(".mode-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      modeButtons.forEach((b) => b.classList.remove("active"));
+      document
+        .querySelectorAll(".mode-btn")
+        .forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentMode = btn.dataset.mode;
-
-      if (currentMode === "delivery") {
-        cartFab.classList.remove("hidden");
-      } else {
-        cartFab.classList.add("hidden");
-        cartDrawer.classList.remove("active");
-      }
-      // Inside your modeButtons click listener
-      currentMode = btn.dataset.mode;
-
-      const locationBox = document.getElementById("takeaway-location-box");
-      if (currentMode === "delivery") {
-        locationBox.style.display = "block"; // Show for Takeaway
-      } else {
-        locationBox.style.display = "none"; // Hide for Dine-In
-      }
+      cartFab.classList.toggle("hidden", currentMode !== "delivery");
       renderSmartMenu();
     });
   });
 
-  // ── 5. CATEGORY SWITCHING ──
-  categoryButtons.forEach((btn) => {
+  document.querySelectorAll(".category-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      categoryButtons.forEach((b) => b.classList.remove("active"));
+      document
+        .querySelectorAll(".category-btn")
+        .forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentCategory = btn.dataset.category;
       renderSmartMenu();
     });
   });
 
-  // ── 6. CART LOGIC ──
-  function addToCart(id) {
-    let foundItem = null;
-    for (let cat in window.menuData) {
-      const match = window.menuData[cat].find((p) => p.id == id);
-      if (match) {
-        foundItem = match;
-        break;
-      }
-    }
+  // ── 6. DRAWER CONTROLS ──
+  cartFab.addEventListener("click", () => cartDrawer.classList.add("active"));
+  document
+    .querySelector(".close-cart")
+    .addEventListener("click", () => cartDrawer.classList.remove("active"));
 
-    if (foundItem) {
-      cart.push({ ...foundItem }); // Push a copy
-      updateCartUI();
-      // Feedback animation on the floating cart icon
-      cartFab.style.transform = "scale(1.2)";
-      setTimeout(() => (cartFab.style.transform = "scale(1)"), 200);
-    }
-  }
-
-  window.removeFromCart = function (index) {
-    cart.splice(index, 1);
-    updateCartUI();
-  };
-
-  function updateCartUI() {
-    document.querySelector(".cart-count").innerText = cart.length;
-
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML =
-        '<p class="empty-msg" style="text-align:center; color:#888; padding:20px;">Your cart is empty</p>';
-      cartTotalDisplay.innerText = "₦0.00";
-      return;
-    }
-
-    cartItemsContainer.innerHTML = cart
-      .map(
-        (item, index) => `
-            <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
-                <div>
-                    <p style="font-weight:600; margin:0;">${item.name}</p>
-                    <p style="color:#e67e22; margin:0;">₦${item.price.toLocaleString()}</p>
-                </div>
-                <button onclick="removeFromCart(${index})" style="background:none; border:none; color:#ff4444; cursor:pointer; font-size:1.2rem;">×</button>
-            </div>
-        `,
-      )
-      .join("");
-
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    cartTotalDisplay.innerText = `₦${total.toLocaleString()}`;
-  }
-
-  // ── 7. PAYSTACK & CHECKOUT ──
-  const checkoutBtn = document.querySelector(".checkout-btn");
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
-      if (cart.length === 0) return;
-
-      // Use a prompt or add an input field in HTML for email
-      const email = "customer@carabana.com";
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-      const handler = PaystackPop.setup({
-        key: "pk_test_YOUR_KEY_HERE", // REPLACE WITH YOUR PUBLIC KEY
-        email: email,
-        amount: total * 100,
-        currency: "NGN",
-        callback: function (response) {
-          const itemsList = cart.map((i) => i.name).join(", ");
-          const total = cart.reduce((sum, item) => sum + item.price, 0);
-          const location = document.getElementById("cust-location").value;
-
-          let waMessage = `*NEW PAID ORDER*%0A`;
-          waMessage += `------------------%0A`;
-          waMessage += `*Items:* ${itemsList}%0A`;
-          waMessage += `*Total:* ₦${total.toLocaleString()}%0A`;
-
-          // Add location ONLY if it's takeaway and they filled it
-          if (currentMode === "delivery" && location) {
-            waMessage += `*Location:* ${location}%0A`;
-          }
-
-          waMessage += `*Ref:* ${response.reference}`;
-
-          window.open(`https://wa.me/234XXXXXXXXXX?text=${waMessage}`);
-
-          // Reset Cart
-          cart = [];
-          updateCartUI();
-          cartDrawer.classList.remove("active");
-        },
-        onClose: function () {
-          alert("Payment window closed.");
-        },
-      });
-      handler.openIframe();
-    });
-  }
-
-  // ── 8. DRAWER CONTROLS ──
-  if (cartFab)
-    cartFab.addEventListener("click", () => cartDrawer.classList.add("active"));
-  const closeCartBtn = document.querySelector(".close-cart");
-  if (closeCartBtn)
-    closeCartBtn.addEventListener("click", () =>
-      cartDrawer.classList.remove("active"),
-    );
-
-  // ── 9. GLOBAL SEARCH LOGIC ──
-  // ── 9. GLOBAL SEARCH & RESET LOGIC ──
-  if (searchInput) {
-    // This function handles both typing AND clearing
-    const handleSearch = (e) => {
-      const term = searchInput.value.toLowerCase().trim();
-
-      // If the search bar is empty (either by backspace or clicking the X)
-      if (term === "") {
-        renderSmartMenu(); // This goes back to the active category (e.g., Tequila)
-        return;
-      }
-
-      // 1. Search through ALL categories
-      let foundItems = [];
-      for (let cat in window.menuData) {
-        const matches = window.menuData[cat].filter((item) =>
-          item.name.toLowerCase().includes(term),
-        );
-        foundItems = [...foundItems, ...matches];
-      }
-
-      // 2. Display results
-      if (foundItems.length > 0) {
-        menuGrid.innerHTML = "";
-        foundItems.forEach((item) => {
-          const card = document.createElement("div");
-          card.className = "menu-card";
-
-          const actionHtml =
-            currentMode === "delivery"
-              ? `<div class="add-to-cart-wrapper">
-                   <button class="add-btn-small add-to-cart-btn" data-id="${item.id}">+</button>
-                 </div>`
-              : "";
-
-          card.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" loading="lazy">
-                ${actionHtml} 
-                <div class="content">
-                  <h3>${item.name}</h3>
-                  <div class="price">₦${item.price.toLocaleString()}</div>
-                </div>
-            `;
-          menuGrid.appendChild(card);
-        });
-
-        // Re-attach Add to Cart listeners
-        document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            addToCart(btn.getAttribute("data-id"));
-          });
-        });
-      } else {
-        menuGrid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 50px; color: #888;">No drinks found matching "${term}"</div>`;
-      }
-    };
-
-    // Listener for typing
-    searchInput.addEventListener("input", handleSearch);
-
-    // Listener for the "X" clear button in the browser
-    searchInput.addEventListener("search", handleSearch);
-  }
-
-  // Initial Load
+  // Initial load
   renderSmartMenu();
 });
